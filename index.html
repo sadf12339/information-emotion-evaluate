@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青年信息情绪症测试问卷</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 配置Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#8B5CF6',
+                        accent: '#EC4899',
+                        neutral: '#1F2937',
+                        'neutral-light': '#F3F4F6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+            }
+            .btn-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:translate-y-0 active:shadow;
+            }
+            .option-hover {
+                @apply transition-all duration-200 hover:bg-primary/5 hover:border-primary;
+            }
+            .gradient-text {
+                @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+            }
+            .glass-effect {
+                @apply bg-white/80 backdrop-blur-sm;
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.8s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-slide-in {
+                animation: slideIn 0.5s ease-out;
+            }
+            @keyframes slideIn {
+                from { transform: translateX(-20px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 to-purple-50 min-h-screen font-sans text-neutral">
+    <!-- 装饰元素 -->
+    <div class="fixed top-0 right-0 w-64 h-64 bg-primary/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+    <div class="fixed bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 py-8 max-w-4xl relative z-10">
+        <!-- 页面头部 -->
+        <header class="text-center mb-12 animate-fade-in">
+            <div class="inline-block p-3 rounded-full bg-white/70 mb-4 shadow-sm">
+                <i class="fa fa-question-circle text-4xl gradient-text"></i>
+            </div>
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold gradient-text mb-4">
+                青年信息情绪症测试问卷
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                本问卷将帮助您了解自己在面对信息时代时可能存在的情绪症倾向，共包含20个问题，请根据自身实际情况如实作答。
+            </p>
+        </header>
+
+        <!-- 问卷部分 -->
+        <main id="questionnaire" class="glass-effect rounded-2xl p-6 md:p-10 card-shadow mb-10 animate-fade-in" style="animation-delay: 0.2s;">
+            <!-- 问卷内容将通过JavaScript动态生成 -->
+            <div id="loading" class="text-center py-20">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-primary mx-auto mb-4"></div>
+                <p class="text-lg text-gray-600">正在加载问卷内容...</p>
+            </div>
+            
+            <div id="questions-container" class="hidden">
+                <!-- 进度条 -->
+                <div class="mb-8">
+                    <div class="flex justify-between text-sm text-gray-500 mb-1">
+                        <span id="progress-text">进度: 0/20</span>
+                        <span id="progress-percentage">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                        <div id="progress-bar" class="bg-gradient-to-r from-primary to-secondary h-2.5 rounded-full transition-all duration-700 ease-out" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <!-- 问题将在这里动态生成 -->
+                <div id="question-content" class="mb-8 animate-slide-in">
+                    <!-- 问题内容 -->
+                </div>
+                
+                <!-- 导航按钮 -->
+                <div class="flex justify-between">
+                    <button id="prev-btn" class="hidden bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-6 rounded-lg btn-hover disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <i class="fa fa-arrow-left mr-2"></i>上一题
+                    </button>
+                    <button id="next-btn" class="bg-primary text-white font-medium py-3 px-8 rounded-lg btn-hover disabled:opacity-50 disabled:cursor-not-allowed">
+                        下一题<i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                    <button id="submit-btn" class="hidden bg-accent text-white font-medium py-3 px-8 rounded-lg btn-hover disabled:opacity-50 disabled:cursor-not-allowed">
+                        提交问卷<i class="fa fa-paper-plane ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 结果展示部分 -->
+        <div id="result-container" class="hidden glass-effect rounded-2xl p-6 md:p-10 card-shadow mb-10 animate-fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 gradient-text">测试结果</h2>
+            <div id="result-content" class="text-center mb-8 animate-slide-in">
+                <!-- 结果内容将通过JavaScript动态生成 -->
+            </div>
+            <div class="text-center">
+                <button id="restart-btn" class="bg-gradient-to-r from-primary to-secondary text-white font-medium py-3 px-8 rounded-lg btn-hover">
+                    重新测试
+                </button>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="text-center text-gray-500 text-sm mt-16 pt-8 border-t border-gray-200/50">
+            <p class="mb-2">© 2025 青年信息情绪症测试问卷</p>
+            <p class="mb-2">作者：橘井微光社</p>
+            <p class="italic">本测试仅供参考，如有严重情绪问题请咨询专业心理医生</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
